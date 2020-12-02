@@ -14,13 +14,20 @@ public class Demo {
      * 秘钥获取地址：https://console.cloud.tencent.com/cam/capi
      */
     public static void main(String[] args) throws UnsupportedEncodingException {
+        //输入API秘钥
         COSCredentials credentials = new COSCredentials("secret_id", "secret_key");
         AuthorizationGenerate authorizationGenerate = new AuthorizationGenerate();
+        //http请求头信息
         HashMap<String, String> httpHeadMap = new HashMap<>();
         httpHeadMap.put("Host", "markjrzhang-1251704708.ci.ap-chongqing.myqcloud.com");
+        //http请求参数信息
         HashMap<String, String> httpParamMap = new HashMap<>();
         httpParamMap.put("bucketName", "markjrzhang-1251704708");
-        String s = authorizationGenerate.buildAuthorizationStr(HttpMethodName.GET, "/mediabucket", httpHeadMap, httpParamMap, credentials, expiredTime);
-        System.out.println(s);
+        //请求接口路径
+        String uri = "/mediabucket";
+        //生成签名串
+        String authorization = authorizationGenerate.buildAuthorizationStr(HttpMethodName.GET, uri, httpHeadMap, httpParamMap, credentials, expiredTime);
+        //注 使用时放入http请求头中 key：Authorization
+        System.out.println(authorization);
     }
 }
